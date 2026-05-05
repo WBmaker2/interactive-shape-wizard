@@ -46,3 +46,13 @@ export type NearMissHint = {
   label: string;
   message: string;
 };
+
+export type Mission = {
+  id: string;
+  mode: ShapeMode;
+  title: string;
+  prompt: string;
+  targetClassificationId: string;
+  targetLabel: string;
+  constructionTarget?: ConstructionTarget;
+};

@@ -199,6 +199,125 @@ h1 {
   animation: pop 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.mission-panel {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.mission-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mission-heading h2 {
+  margin-bottom: 0;
+  color: #0f172a;
+  font-size: 1.35rem;
+  letter-spacing: 0;
+}
+
+.mission-status {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  padding: 0 13px;
+  color: #1e3a8a;
+  background: #eff6ff;
+  font-size: 0.92rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.mission-status.complete {
+  border-color: #86efac;
+  color: #166534;
+  background: #f0fdf4;
+}
+
+.mission-prompt {
+  margin: 0;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.mission-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mission-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mission-tab,
+.mission-helper {
+  min-height: 38px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.mission-tab {
+  border: 1px solid #dbeafe;
+  padding: 0 11px;
+  color: #1e3a8a;
+  background: #f8fbff;
+}
+
+.mission-tab.active {
+  border-color: #2563eb;
+  color: #ffffff;
+  background: #2563eb;
+}
+
+.mission-helper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #facc15;
+  padding: 0 12px;
+  color: #713f12;
+  background: #fef3c7;
+}
+
+.mission-tab:hover {
+  background: #dbeafe;
+}
+
+.mission-tab.active:hover {
+  background: #1d4ed8;
+}
+
+.mission-helper:hover {
+  background: #fde68a;
+}
+
+.mission-tab:focus-visible,
+.mission-helper:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -350,6 +469,14 @@ h1 {
   font-size: 1.25rem;
 }
 
+.representative-card p {
+  margin: 3px 0 0;
+  color: #7f1d1d;
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
 .near-card {
   display: grid;
   gap: 5px;
@@ -406,6 +533,10 @@ h1 {
     justify-content: flex-start;
   }
 
+  .mission-actions {
+    justify-content: flex-start;
+  }
+
   .main-grid {
     grid-template-columns: 1fr;
   }
@@ -441,6 +572,19 @@ h1 {
   .construction-group {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .mission-heading,
+  .mission-actions,
+  .mission-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .mission-status,
+  .mission-tab,
+  .mission-helper {
+    width: 100%;
   }
 
   .measurement-panel {

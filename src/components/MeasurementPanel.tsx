@@ -13,6 +13,17 @@ const MODE_LABELS: Record<ShapeMode, string> = {
   quadrilateral: '사각형',
 };
 
+const CLASSIFICATION_EXPLANATIONS: Record<string, string> = {
+  'equilateral-triangle': '정삼각형은 세 변의 길이가 모두 같은 삼각형이에요.',
+  'isosceles-triangle': '이등변삼각형은 두 변의 길이가 같은 삼각형이에요.',
+  'right-triangle': '직각삼각형은 한 각이 90도인 삼각형이에요.',
+  square: '정사각형은 네 변의 길이가 같고 네 각이 모두 직각인 사각형이에요.',
+  rectangle: '직사각형은 네 각이 모두 직각이고 마주 보는 변의 길이가 같은 사각형이에요.',
+  trapezoid: '사다리꼴은 한 쌍의 마주 보는 변이 평행한 사각형이에요.',
+  parallelogram: '평행사변형은 두 쌍의 마주 보는 변이 각각 평행한 사각형이에요.',
+  rhombus: '마름모는 네 변의 길이가 모두 같은 사각형이에요.',
+};
+
 export function MeasurementPanel({
   mode,
   sides,
@@ -64,6 +75,7 @@ export function MeasurementPanel({
             <div className="representative-card">
               <span>대표 도형</span>
               <strong>{representative.label}</strong>
+              <p>{CLASSIFICATION_EXPLANATIONS[representative.id]}</p>
             </div>
             {related.length > 0 && (
               <div>

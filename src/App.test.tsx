@@ -18,6 +18,8 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: /처음 모양/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /자석 도움 켜짐/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /정삼각형 맞추기/ })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '이등변삼각형 만들기' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '이등변삼각형' })).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('switches between triangle and quadrilateral modes', async () => {
@@ -31,6 +33,17 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: '사각형' })).toBeInTheDocument();
     expect(screen.getByText(/꼭짓점 A, B, C, D/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /정사각형 맞추기/ })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '정사각형 만들기' })).toBeInTheDocument();
+  });
+
+  it('marks the active mission complete when its exact shape is constructed', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: /미션 도움으로 맞추기/ }));
+
+    expect(screen.getByText('앗! 이등변삼각형으로 변신 완료!')).toBeInTheDocument();
+    expect(screen.getByText('완료')).toBeInTheDocument();
   });
 
   it('shows the celebration only while the current shape still matches', async () => {

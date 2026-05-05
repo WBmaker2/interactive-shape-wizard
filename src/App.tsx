@@ -3,6 +3,7 @@ import './App.css';
 import { CelebrationBanner } from './components/CelebrationBanner';
 import { ShapeCanvas } from './components/ShapeCanvas';
 import { MeasurementPanel } from './components/MeasurementPanel';
+import { MissionPanel } from './components/MissionPanel';
 import { Toolbar } from './components/Toolbar';
 import { CANVAS_STAGE } from './lib/canvasStage';
 import { classifyShape, getShapeNearMissHints } from './lib/classify';
@@ -16,6 +17,7 @@ import {
 } from './lib/constructShapes';
 import { createDefaultQuadrilateral, createDefaultTriangle } from './lib/defaultShapes';
 import { getAngleMeasurements, getEqualSideIndexes, getSideMeasurements } from './lib/geometry';
+import { getMissionsForMode } from './lib/missions';
 import type { ConstructionTarget, GuideMode, Point, ShapeMode } from './types';
 
 function createDefaultShape(mode: ShapeMode): Point[] {
@@ -30,10 +32,22 @@ export default function App() {
   const [mode, setMode] = useState<ShapeMode>('triangle');
   const [points, setPoints] = useState<Point[]>(() => createDefaultShape('triangle'));
   const [guideMode, setGuideMode] = useState<GuideMode>('magnetic');
+  const [selectedMissionIds, setSelectedMissionIds] = useState<Record<ShapeMode, string>>({
+    triangle: 'mission-isosceles-triangle',
+    quadrilateral: 'mission-square',
+  });
 
   const classifications = useMemo(() => classifyShape(mode, points), [mode, points]);
   const celebrationMessage = classifications[0]?.message ?? null;
   const nearMissHints = useMemo(() => getShapeNearMissHints(mode, points), [mode, points]);
+  const missions = useMemo(() => getMissionsForMode(mode), [mode]);
+  const activeMission = useMemo(
+    () => missions.find((mission) => mission.id === selectedMissionIds[mode]) ?? missions[0],
+    [missions, mode, selectedMissionIds],
+  );
+  const activeMissionComplete = classifications.some(
+    (classification) => classification.id === activeMission.targetClassificationId,
+  );
   const equalSideIndexes = useMemo(() => getEqualSideIndexes(points), [points]);
   const sideMeasurements = useMemo(
     () => getSideMeasurements(points, equalSideIndexes),
@@ -52,6 +66,13 @@ export default function App() {
 
   function handleToggleGuideMode() {
     setGuideMode((current) => (current === 'magnetic' ? 'free' : 'magnetic'));
+  }
+
+  function handleSelectMission(missionId: string) {
+    setSelectedMissionIds((current) => ({
+      ...current,
+      [mode]: missionId,
+    }));
   }
 
   function handleConstruct(target: ConstructionTarget) {
@@ -109,6 +130,14 @@ export default function App() {
         </header>
 
         <CelebrationBanner message={celebrationMessage} />
+
+        <MissionPanel
+          activeMission={activeMission}
+          isComplete={activeMissionComplete}
+          missions={missions}
+          onSelectMission={handleSelectMission}
+          onUseConstruction={handleConstruct}
+        />
 
         <div className="main-grid">
           <ShapeCanvas
